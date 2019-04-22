@@ -3,8 +3,12 @@ import argparse
 import json
 import requests
 from flask import Flask, request, jsonify
+from flask_basicauth import BasicAuth
 
 app = Flask(__name__)
+app.config['BASIC_AUTH_USERNAME'] = os.environ['HTTP_AUTH_USERNAME']
+app.config['BASIC_AUTH_PASSWORD'] = os.environ['HTTP_AUTH_PASSWORD']
+basic_auth = BasicAuth(app)
 telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
 telegram_bot_chat_id = os.environ['TELEGRAM_BOT_CHAT_ID']
 
@@ -13,6 +17,7 @@ def ping():
     return jsonify({"status": "ok"})
 
 @app.route('/', methods =  ['POST'])
+@basic_auth.required
 def webhookHandler():
     content = request.get_json()
     alert_title = content['alert_title']

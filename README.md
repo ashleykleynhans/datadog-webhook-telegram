@@ -67,7 +67,9 @@ URL = https://0f379388.ngrok.io
         "s3_bucket": "datadog-telegram-webhooks",
         "environment_variables": {
             "TELEGRAM_BOT_TOKEN":"<BOT_TOKEN>",
-            "TELEGRAM_BOT_CHAT_ID":"<BOT_CHAT_ID>"
+            "TELEGRAM_BOT_CHAT_ID":"<BOT_CHAT_ID>",
+            "HTTP_AUTH_USERNAME":"<HTTP_AUTH_USERNAME>",
+            "HTTP_AUTH_PASSWORD":"<HTTP_AUTH_PASSWORD>"
         }
     }
 }
@@ -77,7 +79,6 @@ URL = https://0f379388.ngrok.io
 
 # Todos
 
-- Implement HTTP Basic Authentication
 - Create conditional rule for automatic failover ( ex: ldc dynamodb)
 
 
