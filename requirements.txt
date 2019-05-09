@@ -2,3 +2,5 @@ flask
 boto3
 zappa
 Flask-BasicAuth
+awsudo
+awscli

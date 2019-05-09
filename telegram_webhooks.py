@@ -23,6 +23,7 @@ def webhookHandler():
     alert_title = content['alert_title']
     alert_query = content['alert_query']
     event_title = content['event_title']
+    alert_type = content['alert_type']
     priority = content['priority']
     link = content['link']
     image = content['snapshot']
@@ -32,7 +33,7 @@ def webhookHandler():
     reply_markup = {'inline_keyboard': [[{'text' : '*Check Event:*','url' : link}]]}
     payload = {
         'chat_id': telegram_bot_chat_id,
-        'text': '<b>Event Title:</b>\n' + event_title + '\n<b>Graph:</b>'+ image +'\n<b>Priority:</b>' + priority + '\n<b>Tags:</b>' + tags,
+        'text': '<b>Event Title:</b>\n' + event_title + '\n<b>Graph:</b>'+ image +'\n<b>Priority:</b>' + priority + '\n<b>Type:</b>'+ alert_type + '\n<b>Tags:</b>' + tags,
         'reply_markup' : json.dumps(reply_markup),
         'parse_mode' : 'html'
     }
