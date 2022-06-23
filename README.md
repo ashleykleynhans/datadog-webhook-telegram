@@ -18,7 +18,10 @@ and `alert_status`, to make the messages cleaner, but added
 support for some additional fields in the webhook if anyone else
 wants to use them.
 4. Added missing auth credentials to the documentation.
-5. Upgraded docs from Python 3.7 to Python 3.9, since all Python3 versions
+5. Added a Python script to generate the Basic Authorization JSON header
+that Datadog needs to use to authenticate the requests it makes to the
+Webhook.
+6. Upgraded docs from Python 3.7 to Python 3.9, since all Python3 versions
 prior to 3.9.1 are vulnerable to
 [CVE-2021-3177](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3177).
 
