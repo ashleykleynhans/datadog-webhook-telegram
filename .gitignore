@@ -1,5 +1,5 @@
 telegram-webhooks/*
 zappa_settings.json
-env/*
+venv/*
 .vscode
 .idea
