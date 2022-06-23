@@ -45,9 +45,8 @@ def webhookHandler():
     else:
         chat_id = telegram_warning_chat_id
 
-    msg_txt = f'<b>{event_title}</b>\n\n'
-    msg_txt += f'{alert_status}'
-    msg_txt = html.escape(msg_txt)
+    msg_txt = f'<b>{html.escape(event_title)}</b>\n\n'
+    msg_txt += f'{html.escape(alert_status)}'
 
     reply_markup = {'inline_keyboard': [[{'text' : 'Check Event','url' : link}]]}
 
