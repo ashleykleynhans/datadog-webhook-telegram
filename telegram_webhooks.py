@@ -52,16 +52,17 @@ def webhookHandler():
 
     msg_data = {
         'chat_id': chat_id,
-        'text': msg_txt,
         'reply_markup': json.dumps(reply_markup),
         'parse_mode': 'html'
     }
 
     if snapshot == 'null':
         bot_endpoint = 'sendMessage'
+        msg_data['text'] = msg_txt
         files = {}
     else:
         bot_endpoint = 'sendPhoto'
+        msg_data['caption'] = msg_txt
         remote_image = requests.get(snapshot)
         photo = io.BytesIO(remote_image.content)
         photo.name = 'img.png'
