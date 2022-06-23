@@ -19,11 +19,9 @@ wants to use them.
 
 ## Prerequisites
 
-- Install [ngrok](https://ngrok.com/).
-
-- Create Telegram Bot and export the Bot Token and Chat ID
+1. Install [ngrok](https://ngrok.com/).
+2. Create Telegram Bot and export the Bot Token and Chat ID
 (Ref: [Create New Telegram Bot](https://core.telegram.org/bots#creating-a-new-bot).
-
 ```bash
 export TELEGRAM_BOT_TOKEN='<BOT_TOKEN>'
 export TELEGRAM_WARNING_CHAT_ID='<WARNING_CHAT_ID>'
@@ -31,24 +29,21 @@ export TELEGRAM_CRITICAL_CHAT_ID='<CRITICAL_CHAT_ID>'
 export HTTP_AUTH_USERNAME='<USERNAME_TO_AUTH_DATADOG_WEBHOOK>'
 export HTTP_AUTH_PASSWORD='<PASSWORD_TO_AUTH_DATADOG_WEBHOOK>'
 ```
-
-- Create two new Telegram channels, one for warnings and one for
+3. Create two new Telegram channels, one for warnings and one for
 errors and add the bot into them.
 
 ## Datadog Webhook Configuration
 
-- Login to Datadog.
-- Navigate to *Integrations* -> *Integrations* -> Search for *Webhooks* -> *Configure*.
-- Navigate to bottom and insert the **Name** and **URL** of the receiver.
+1. Login to Datadog.
+2. Navigate to *Integrations* -> *Integrations* -> Search for *Webhooks* -> *Configure*.
+3. Navigate to bottom and insert the **Name** and **URL** of the receiver.
 
 eg:
 ```bash
 Name = Datadog Test
 URL = https://0f379388.ngrok.io
 ```
-
-- Tick `Use Custom Payload` checkbox and fill the *Custom Payload* form with below payload sample
-
+4. Tick `Use Custom Payload` checkbox and fill the *Custom Payload* form with below payload sample
 ```
 {
     "alert_priority": "$ALERT_PRIORITY",
@@ -67,44 +62,33 @@ URL = https://0f379388.ngrok.io
     "user": "$USER"
 }
 ```
-- Click `Save Configuration` Button.
+5. Click `Save Configuration` Button.
 
 ## How to Test
 
-- Run webhook receiver.
-
+1. Run webhook receiver.
 ```bash
 python3 telegram_webhooks.py
 ```
-
-- Create Testing Public URL using [ngrok](https://ngrok.com/).
-
+2. Create Testing Public URL using [ngrok](https://ngrok.com/).
 ```bash
 ngrok http 8090
 ```
-
-- Update datadog webhook configuration with Ngrok URL **(use https one)**.
-
-- Login to Datadog and configure Monitor to send alert to Webhook.
-
-- Check the Telegram channels with bot in them.
+3. Update datadog webhook configuration with Ngrok URL **(use https one)**.
+4. Login to Datadog and configure Monitor to send alert to Webhook.
+5. Check the Telegram channels with bot in them.
 
 ## Deploy to Lambda
 
-- Switch to python3.10.
-
+1. Switch to python3.10.
 ```bash
 virtualenv -p /usr/bin/python3.7 py37 && source py37/bin/activate
 ```
-
-- Install dependencies.
-
+2. Install dependencies.
 ```bash
 pip3.7 install -r requirements.txt
 ```
-
-- Create `zappa_settings.json` and insert below lines for lambda deployment configuration,
-
+3. Create `zappa_settings.json` and insert below lines for lambda deployment configuration,
 ```
 {
     "production": {
@@ -124,15 +108,11 @@ pip3.7 install -r requirements.txt
     }
 }
 ```
-
-- Deploy to Lambda using
-
+4. Deploy to Lambda using
 ```bash
 zappa deploy
 ```
-
-- Check the API Gateway URL using
-
+5. Check the API Gateway URL using
 ```bash
 zappa status
 ```
