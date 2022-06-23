@@ -4,6 +4,7 @@ import html
 import argparse
 import json
 import requests
+import time
 from flask import Flask, request, jsonify
 from flask_basicauth import BasicAuth
 
@@ -63,6 +64,9 @@ def webhookHandler():
     else:
         bot_endpoint = 'sendPhoto'
         msg_data['caption'] = msg_txt
+        # Sleep for 5 seconds before downloading the image, to give DataDog
+        # time to render it, otherwise we download an empty image.
+        time.sleep(5)
         remote_image = requests.get(snapshot)
         photo = io.BytesIO(remote_image.content)
         photo.name = 'img.png'
