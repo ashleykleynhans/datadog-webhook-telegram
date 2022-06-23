@@ -1,4 +1,6 @@
 import os
+import io
+import html
 import argparse
 import json
 import requests
@@ -10,36 +12,68 @@ app.config['BASIC_AUTH_USERNAME'] = os.environ['HTTP_AUTH_USERNAME']
 app.config['BASIC_AUTH_PASSWORD'] = os.environ['HTTP_AUTH_PASSWORD']
 basic_auth = BasicAuth(app)
 telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
-telegram_bot_chat_id = os.environ['TELEGRAM_BOT_CHAT_ID']
+telegram_warning_chat_id = os.environ['TELEGRAM_WARNING_CHAT_ID']
+telegram_critical_chat_id = os.environ['TELEGRAM_CRITICAL_CHAT_ID']
+
 
 @app.route('/')
 def ping():
     return jsonify({"status": "ok"})
 
+
 @app.route('/', methods =  ['POST'])
 @basic_auth.required
 def webhookHandler():
     content = request.get_json()
-    alert_title = content['alert_title']
+    alert_priority = content['alert_priority']
     alert_query = content['alert_query']
-    event_title = content['event_title']
+    alert_status = content['alert_status']
+    alert_title = content['alert_title']
+    alert_transition = content['alert_transition']
     alert_type = content['alert_type']
-    priority = content['priority']
+    event_title = content['event_title']
+    event_type= content['event_type']
     link = content['link']
-    image = content['snapshot']
+    priority = content['priority']
+    snapshot = content['snapshot']
+    text_only_msg = content['text_only_msg']
     tags = content['tags']
+    user = content['user']
 
-    url = 'https://api.telegram.org/bot' + telegram_bot_token + '/sendMessage'
-    reply_markup = {'inline_keyboard': [[{'text' : '*Check Event:*','url' : link}]]}
-    payload = {
-        'chat_id': telegram_bot_chat_id,
-        'text': '<b>Event Title:</b>\n' + event_title + '\n<b>Graph:</b>'+ image +'\n<b>Priority:</b>' + priority + '\n<b>Type:</b>'+ alert_type + '\n<b>Tags:</b>' + tags,
-        'reply_markup' : json.dumps(reply_markup),
-        'parse_mode' : 'html'
+    if alert_type == 'error':
+        chat_id = telegram_critical_chat_id
+    else:
+        chat_id = telegram_warning_chat_id
+
+    msg_txt = f'<b>{event_title}</b>\n\n'
+    msg_txt += f'{alert_status}'
+    msg_txt = html.escape(msg_txt)
+
+    reply_markup = {'inline_keyboard': [[{'text' : 'Check Event','url' : link}]]}
+
+    msg_data = {
+        'chat_id': chat_id,
+        'text': msg_txt,
+        'reply_markup': json.dumps(reply_markup),
+        'parse_mode': 'html'
     }
-    req = requests.post(url = url, data = payload)
+
+    if snapshot == 'null':
+        bot_endpoint = 'sendMessage'
+        files = {}
+    else:
+        bot_endpoint = 'sendPhoto'
+        remote_image = requests.get(snapshot)
+        photo = io.BytesIO(remote_image.content)
+        photo.name = 'img.png'
+        files = {'photo': photo}
+
+    bot_url = f'https://api.telegram.org/bot{telegram_bot_token}/{bot_endpoint}'
+    req = requests.post(url=bot_url, data=msg_data, files=files)
     telegram_response = req.json()
+
     return jsonify(telegram_response)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Telegram Datadog Webhook Receiver')
