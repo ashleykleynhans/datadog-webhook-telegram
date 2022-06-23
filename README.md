@@ -88,7 +88,7 @@ into `Payload` input box:
 ```
 5. Tick the `Custom Headers` checkbox.
 6. Ensure that the `Encode as form` checkbox is **NOT** ticked.
-7. Ensure that your `HTTP_AUTH_USERNAME` and `HTTP_AUTH_PASSWORD`.
+7. Ensure that your `HTTP_AUTH_USERNAME` and `HTTP_AUTH_PASSWORD`
 environment variables are configured (see [Prerequisites](#Prerequisites) above).
 8. Run the `generate_basic_auth.py` script in your terminal to generate
 your Basic Authorization header for the Datadog webhook to prevent random
