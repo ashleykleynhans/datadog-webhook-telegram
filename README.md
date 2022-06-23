@@ -32,6 +32,7 @@ Webhook.
 prior to 3.9.1 are vulnerable to
 [CVE-2021-3177](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3177).
 
+#### Example Telegram Notification:
 <img src="https://raw.githubusercontent.com/ashleykleynhans/datadog-webhook-telegram/master/example.png" alt="Example Alert" width="500">
 
 ## Prerequisites
