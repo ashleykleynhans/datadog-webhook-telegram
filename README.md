@@ -1,5 +1,12 @@
 # Datadog Webhook to Trigger Telegram Notifications
 
+[![Python Version: 3.9](
+https://img.shields.io/badge/Python%20application-v3.9-blue
+)](https://www.python.org/downloads/release/python-3913/)
+[![License: Apache 2.0](
+https://img.shields.io/github/license/ashleykleynhans/datadog-webhook-telegram
+)](https://opensource.org/licenses/Apache-2.0)
+
 ## Background
 
 This project is forked from
